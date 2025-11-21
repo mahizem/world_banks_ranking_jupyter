@@ -33,7 +33,7 @@ DB_CONFIG = {
     'host': 'localhost',
     'database': 'postgres',
     'user': 'postgres',
-    'password': 'ilovemum21%406', # *** IMPORTANT: Replace 'your_secure_password' with your actual password ***
+    'password': 'ilovemum21%406', # ** IMPORTANT: Replace 'your_secure_password' with your actual password ***
     'port': '5432'
 }
 TABLE_NAME = 'business_listings' 
