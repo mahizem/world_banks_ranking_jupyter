@@ -38,7 +38,7 @@ DB_CONFIG = {
 }
 TABLE_NAME = 'business_listings' 
 
-# Inner Loop: Scrape all pages for a single category
+# Inner Loop: Scrape all pages for a single category found
 def scrape_category_pages(driver, category_name): 
     """
     Scrapes all paginated listings for the CURRENTLY LOADED category page.
