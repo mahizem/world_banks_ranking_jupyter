@@ -1,0 +1,50 @@
+name: Daily Web Scraper
+
+# This workflow runs automatically at 11:10 AM UTC every day.
+# It also allows manual trigger (workflow_dispatch).
+on:
+  schedule:
+    # Run once a day at 11:10 AM UTC
+    - cron: "20 8 * * *"
+  workflow_dispatch:
+  # === Trigger run on every push to the main branch ===
+  push:
+    branches:
+      - main
+
+jobs:
+  scrape_and_store:
+    runs-on: ubuntu-latest
+
+    # Define environment variables for the database connection.
+    # The actual values must be stored as GitHub Secrets for security.
+    env:
+      # Database connection details (use secrets for production environments)
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }} # CRITICAL: This MUST be a secret
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          # Install system dependencies needed for Selenium and Postgres (psycopg2)
+          sudo apt-get update && sudo apt-get install -y libpq-dev python3-dev
+
+          # Install Python packages
+          pip install -r requirements.txt
+
+      - name: Run Scraper Script
+        run: python main.py
+
+      - name: Display completion message
+        run: echo "Scraping job completed. Check PostgreSQL database for new entries."
